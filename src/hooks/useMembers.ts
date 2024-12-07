@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Member, MemberFormData, Tag } from '../types';
+import { Member, MemberFormData } from '../types';
 
 // サンプルデータ
 const initialMembers: Member[] = [
@@ -24,7 +24,7 @@ const initialMembers: Member[] = [
       { id: '3', name: 'デザイナー', category: 'position', color: '#f44336' },
       { id: '4', name: 'アニメーション', category: 'hobby', color: '#9c27b0' }
     ],
-    isEditable: false,
+    isEditable: true,
     createdAt: new Date().toISOString()
   }
 ];

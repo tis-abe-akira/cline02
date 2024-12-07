@@ -43,6 +43,10 @@ const ColorPreview = styled(Box)({
   marginRight: 8,
 });
 
+const StyledDialogContent = styled(DialogContent)(({ theme }) => ({
+  padding: `${theme.spacing(3)} ${theme.spacing(3)} ${theme.spacing(3)} !important`,
+}));
+
 const defaultColors = [
   '#2196f3', // Blue
   '#f44336', // Red
@@ -117,19 +121,18 @@ export const TagManagement = ({
         </CloseButton>
       </DialogTitle>
 
-      <DialogContent>
-        <Box sx={{ mb: 4 }}>
-          <Box sx={{ display: 'flex', gap: 1, mb: 2 }}>
+      <StyledDialogContent>
+        <Box>
+          <Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
             <TextField
               label="新しいタグ名"
               value={newTag.name}
               onChange={(e) =>
                 setNewTag((prev) => ({ ...prev, name: e.target.value }))
               }
-              size="small"
               sx={{ flex: 1 }}
             />
-            <FormControl size="small" sx={{ minWidth: 120 }}>
+            <FormControl sx={{ minWidth: 160 }}>
               <InputLabel>カテゴリー</InputLabel>
               <Select
                 value={newTag.category}
@@ -146,7 +149,7 @@ export const TagManagement = ({
                 <MenuItem value="other">その他</MenuItem>
               </Select>
             </FormControl>
-            <FormControl size="small" sx={{ minWidth: 120 }}>
+            <FormControl sx={{ minWidth: 160 }}>
               <InputLabel>色</InputLabel>
               <Select
                 value={newTag.color}
@@ -182,7 +185,7 @@ export const TagManagement = ({
           </Button>
         </Box>
 
-        <List>
+        <List sx={{ mt: 4 }}>
           {tags.map((tag) => (
             <ListItem
               key={tag.id}
@@ -298,7 +301,7 @@ export const TagManagement = ({
             </DialogContent>
           </Dialog>
         )}
-      </DialogContent>
+      </StyledDialogContent>
     </Dialog>
   );
 };
