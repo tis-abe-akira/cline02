@@ -15,14 +15,13 @@ const ListContainer = styled(Box)(({ theme }) => ({
   margin: '0 auto',
 }));
 
-const DroppableContainer = styled(Box)(({ theme }) => ({
+const DroppableContainer = styled(Box)({
   minHeight: 400,
-}));
+});
 
 export const MemberList = ({ members, onMemberClick, onReorder }: MemberListProps) => {
   const handleDragEnd = (result: DropResult) => {
     if (!result.destination) return;
-
     onReorder(result.source.index, result.destination.index);
   };
 

@@ -35,6 +35,7 @@ function App() {
     setSelectedMember,
     addMember,
     updateMember,
+    deleteMember,
     reorderMembers,
   } = useMembers();
 
@@ -100,6 +101,7 @@ function App() {
         open={isDetailOpen}
         onClose={handleDetailClose}
         onEdit={handleEditClick}
+        onDelete={deleteMember}
       />
 
       <MemberForm

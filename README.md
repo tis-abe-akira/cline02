@@ -1,50 +1,85 @@
-# React + TypeScript + Vite
+# メンバー紹介アプリケーション
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+チームメンバーの情報を管理・表示するためのWebアプリケーションです。
 
-Currently, two official plugins are available:
+## 主な機能
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- メンバー一覧の表示
+- メンバー詳細情報の閲覧
+- 新規メンバーの追加
+- タグによるメンバー管理
+- ドラッグ&ドロップによるメンバーの並び替え
 
-## Expanding the ESLint configuration
+## 技術スタック
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- React 18.3
+- TypeScript
+- Material-UI (MUI)
+- react-beautiful-dnd
+- Vite
 
-- Configure the top-level `parserOptions` property like this:
+## プロジェクト構造
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```
+src/
+├── components/
+│   ├── AddMemberModal/    # メンバー追加用モーダル
+│   ├── MemberCard/        # メンバーカード表示
+│   ├── MemberDetail/      # メンバー詳細表示
+│   ├── MemberList/        # メンバー一覧
+│   └── TagManagement/     # タグ管理機能
+├── context/
+│   └── MemberContext.tsx  # メンバー情報の状態管理
+└── types/
+    └── index.ts          # 型定義
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## 開発環境のセットアップ
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+1. 依存パッケージのインストール
+```bash
+npm install
 ```
+
+2. 開発サーバーの起動
+```bash
+npm run dev
+```
+
+3. ビルド
+```bash
+npm run build
+```
+
+4. リントの実行
+```bash
+npm run lint
+```
+
+## 開発背景
+
+このプロジェクトは、VSCode拡張のAIエージェント「Cline」を使用して開発されました。
+以下は、Clineに与えた初期プロンプトの内容です：
+
+```
+カジュアルなトーンの部員紹介のアプリを作りたいと思います。
+Reactとvite, TypeScriptで作ってください。
+
+初期段階なので、認証処理やデータの永続化処理は不要です。（後で別途追加します）
+
+要件：
+- 部員のアイコン画像、自己紹介メッセージがリストで表示される（この時長いメッセージは途中で切られるが詳細表示画面で見れる）
+- 部員のアイコン画像は、ドラッグ&ドロップでアップロードできる
+- リストは並べ替えることができる（ドラッグ&ドロップで）
+- リストから部員をタップすると詳細を見ることができる
+- 部員にタグをつけられる（職位、趣味などタグの管理ビューも別途ある）
+- フローティングアクションボタンを押すとモーダルが立ち上がり部員情報を入力できる
+- 自分が編集できるデータをタップすると詳細画面表示画面に編集ボタンがあり内容編集ができる
+- 同様に削除も可能（削除の際にはダイアログで確認を求める）
+```
+
+このプロンプトに基づいて、Clineが基本的なアプリケーション構造を生成し、その後機能を実装していきました。
+
+## ライセンス
+
+このプロジェクトはMITライセンスの下で公開されています。
