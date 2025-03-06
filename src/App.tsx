@@ -26,7 +26,7 @@ const AppContainer = styled(Box)(({ theme }) => ({
 const ContentContainer = styled(Box)(({ theme }) => ({
   flex: 1,
   padding: theme.spacing(3),
-  paddingBottom: theme.spacing(8), // ナビゲーションの高さ分の余白
+  paddingBottom: theme.spacing(10), // ナビゲーションの高さ分の余白を増やしてFABとの重なりを防止
   overflow: 'auto',
 }));
 
@@ -40,7 +40,7 @@ const NavigationContainer = styled(Paper)(({ theme }) => ({
 
 const FabContainer = styled(Box)(({ theme }) => ({
   position: 'fixed',
-  bottom: theme.spacing(2),
+  bottom: theme.spacing(8), // ナビゲーションバーの上に表示されるように調整
   right: theme.spacing(2),
   display: 'flex',
   flexDirection: 'column',
@@ -48,6 +48,7 @@ const FabContainer = styled(Box)(({ theme }) => ({
   '& > button': {
     boxShadow: theme.shadows[3],
   },
+  zIndex: theme.zIndex.appBar + 1, // ナビゲーションより上に表示されるようにzIndexを設定
 }));
 
 function App() {

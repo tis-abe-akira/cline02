@@ -161,7 +161,7 @@ export const ChatPage = () => {
             key={message.id}
             message={message}
             isCurrentUser={message.senderId === currentUserId}
-            showSenderName={false}
+            showSenderName={true}
             senderName={
               message.senderId === currentUserId 
                 ? 'あなた' 

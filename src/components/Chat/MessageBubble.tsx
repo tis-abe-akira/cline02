@@ -14,7 +14,7 @@ const MessageContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   maxWidth: '70%',
-  marginBottom: theme.spacing(1),
+  marginBottom: theme.spacing(1.5),
 }));
 
 const BubbleContent = styled(Box, {
@@ -37,6 +37,7 @@ const SenderName = styled(Typography)(({ theme }) => ({
   fontWeight: 700,
   fontSize: '0.75rem',
   marginBottom: theme.spacing(0.5),
+  color: theme.palette.text.secondary,
 }));
 
 const TimeStamp = styled(Typography)(({ theme }) => ({
@@ -56,8 +57,8 @@ export const MessageBubble = ({ message, isCurrentUser, showSenderName = false, 
       }}
     >
       <MessageContainer>
-        {showSenderName && !isCurrentUser && senderName && (
-          <SenderName variant="caption" color="text.secondary">
+        {showSenderName && senderName && (
+          <SenderName variant="caption" align={isCurrentUser ? "right" : "left"}>
             {senderName}
           </SenderName>
         )}
