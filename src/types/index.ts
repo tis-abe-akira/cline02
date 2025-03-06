@@ -22,3 +22,19 @@ export interface MemberFormData {
   tags: Tag[];
   imageData?: string; // Base64形式の画像データ（オプショナル）
 }
+
+export interface Message {
+  id: string;
+  senderId: string;
+  receiverId: string;
+  content: string;
+  timestamp: string;
+  isRead: boolean;
+}
+
+export interface Chat {
+  id: string;
+  participants: string[]; // メンバーIDの配列
+  lastMessage?: Message;
+  updatedAt: string;
+}

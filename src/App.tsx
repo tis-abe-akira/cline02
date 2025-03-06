@@ -1,6 +1,8 @@
-import { Box, Fab, styled } from '@mui/material';
+import { Box, Fab, styled, BottomNavigation, BottomNavigationAction, Paper } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
+import PeopleIcon from '@mui/icons-material/People';
+import ChatIcon from '@mui/icons-material/Chat';
 import { useState } from 'react';
 import { Member } from './types';
 import { useMembers } from './hooks/useMembers';
@@ -9,11 +11,31 @@ import { MemberList } from './components/MemberList/MemberList';
 import { MemberDetail } from './components/MemberDetail/MemberDetail';
 import { MemberForm } from './components/MemberForm/MemberForm';
 import { TagManagement } from './components/TagManagement/TagManagement';
+import { ChatPage } from './components/Chat/ChatPage';
+
+// ビューの種類を定義
+type View = 'members' | 'chat';
 
 const AppContainer = styled(Box)(({ theme }) => ({
   minHeight: '100vh',
   backgroundColor: theme.palette.grey[100],
+  display: 'flex',
+  flexDirection: 'column',
+}));
+
+const ContentContainer = styled(Box)(({ theme }) => ({
+  flex: 1,
   padding: theme.spacing(3),
+  paddingBottom: theme.spacing(8), // ナビゲーションの高さ分の余白
+  overflow: 'auto',
+}));
+
+const NavigationContainer = styled(Paper)(({ theme }) => ({
+  position: 'fixed',
+  bottom: 0,
+  left: 0,
+  right: 0,
+  zIndex: theme.zIndex.appBar,
 }));
 
 const FabContainer = styled(Box)(({ theme }) => ({
@@ -50,6 +72,7 @@ function App() {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [isTagManagementOpen, setIsTagManagementOpen] = useState(false);
   const [editingMember, setEditingMember] = useState<Member | undefined>(undefined);
+  const [currentView, setCurrentView] = useState<View>('members');
 
   const handleMemberClick = (member: Member) => {
     setSelectedMember(member);
@@ -90,11 +113,17 @@ function App() {
 
   return (
     <AppContainer>
-      <MemberList
-        members={members}
-        onMemberClick={handleMemberClick}
-        onReorder={reorderMembers}
-      />
+      <ContentContainer>
+        {currentView === 'members' ? (
+          <MemberList
+            members={members}
+            onMemberClick={handleMemberClick}
+            onReorder={reorderMembers}
+          />
+        ) : (
+          <ChatPage />
+        )}
+      </ContentContainer>
 
       <MemberDetail
         member={selectedMember}
@@ -121,24 +150,47 @@ function App() {
         onDeleteTag={deleteTag}
       />
 
-      <FabContainer>
-        <Fab
-          color="secondary"
-          aria-label="タグ管理"
-          onClick={() => setIsTagManagementOpen(true)}
-          size="medium"
+      {/* FABボタン（メンバービューでのみ表示） */}
+      {currentView === 'members' && (
+        <FabContainer>
+          <Fab
+            color="secondary"
+            aria-label="タグ管理"
+            onClick={() => setIsTagManagementOpen(true)}
+            size="medium"
+          >
+            <LocalOfferIcon />
+          </Fab>
+          <Fab
+            color="primary"
+            aria-label="メンバー追加"
+            onClick={handleAddClick}
+            size="large"
+          >
+            <AddIcon />
+          </Fab>
+        </FabContainer>
+      )}
+
+      {/* ナビゲーション */}
+      <NavigationContainer elevation={3}>
+        <BottomNavigation
+          value={currentView}
+          onChange={(_, newValue) => setCurrentView(newValue as View)}
+          showLabels
         >
-          <LocalOfferIcon />
-        </Fab>
-        <Fab
-          color="primary"
-          aria-label="メンバー追加"
-          onClick={handleAddClick}
-          size="large"
-        >
-          <AddIcon />
-        </Fab>
-      </FabContainer>
+          <BottomNavigationAction 
+            label="メンバー" 
+            value="members" 
+            icon={<PeopleIcon />} 
+          />
+          <BottomNavigationAction 
+            label="チャット" 
+            value="chat" 
+            icon={<ChatIcon />} 
+          />
+        </BottomNavigation>
+      </NavigationContainer>
     </AppContainer>
   );
 }
