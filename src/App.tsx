@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { Member } from './types';
 import { useMembers } from './hooks/useMembers';
 import { useTags } from './hooks/useTags';
+import { useChats } from './hooks/useChats';
 import { MemberList } from './components/MemberList/MemberList';
 import { MemberDetail } from './components/MemberDetail/MemberDetail';
 import { MemberForm } from './components/MemberForm/MemberForm';
@@ -69,6 +70,9 @@ function App() {
     deleteTag,
   } = useTags();
 
+  // すべてのチャット関連の状態を取得
+  const chatState = useChats();
+
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [isTagManagementOpen, setIsTagManagementOpen] = useState(false);
@@ -97,7 +101,9 @@ function App() {
     if (editingMember) {
       updateMember(editingMember.id, formData);
     } else {
-      addMember(formData);
+      // 新しいメンバーを追加し、返されたメンバー情報を使ってチャットも作成
+      const newMember = addMember(formData);
+      chatState.createChat(newMember.id);
     }
     setIsFormOpen(false);
   };
@@ -122,7 +128,17 @@ function App() {
             onReorder={reorderMembers}
           />
         ) : (
-          <ChatPage />
+          <ChatPage 
+            members={members}
+            chats={chatState.chats}
+            selectedChat={chatState.selectedChat}
+            selectChat={chatState.selectChat}
+            sendMessage={chatState.sendMessage}
+            createChat={chatState.createChat}
+            deleteChat={chatState.deleteChat}
+            getChatMessages={chatState.getChatMessages}
+            currentUserId={chatState.currentUserId}
+          />
         )}
       </ContentContainer>
 

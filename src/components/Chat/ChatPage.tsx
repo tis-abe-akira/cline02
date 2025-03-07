@@ -1,12 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
 import { Box, Paper, Typography, AppBar, Toolbar, IconButton, Avatar, Divider, styled } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { useChats } from '../../hooks/useChats';
-import { useMembers } from '../../hooks/useMembers';
 import { ChatList } from './ChatList';
 import { MessageBubble } from './MessageBubble';
 import { MessageInput } from './MessageInput';
-import { Member } from '../../types';
+import { Member, Chat, Message } from '../../types';
 
 const ChatContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -64,17 +62,27 @@ const NoSelectionContainer = styled(Box)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-export const ChatPage = () => {
-  const { members } = useMembers();
-  const { 
-    chats, 
-    selectedChat, 
-    selectChat, 
-    sendMessage, 
-    getChatMessages,
-    currentUserId
-  } = useChats();
-  
+interface ChatPageProps {
+  members: Member[];
+  chats: Chat[];
+  selectedChat: Chat | null;
+  selectChat: (chatId: string) => void;
+  sendMessage: (chatId: string, content: string) => Message;
+  createChat: (participantId: string) => Chat;
+  deleteChat: (chatId: string) => void;
+  getChatMessages: (chatId: string) => Message[];
+  currentUserId: string;
+}
+
+export const ChatPage = ({
+  members,
+  chats,
+  selectedChat,
+  selectChat,
+  sendMessage,
+  getChatMessages,
+  currentUserId
+}: ChatPageProps) => {
   const [isMobileView, setIsMobileView] = useState(false);
   const [showMobileChat, setShowMobileChat] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);

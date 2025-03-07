@@ -43,6 +43,7 @@ export const useMembers = () => {
       createdAt: new Date().toISOString()
     };
     setMembers(prev => [...prev, newMember]);
+    return newMember; // 追加したメンバー情報を返す
   };
 
   const updateMember = (id: string, memberData: MemberFormData) => {
